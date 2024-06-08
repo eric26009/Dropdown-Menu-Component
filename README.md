@@ -6,7 +6,7 @@ To run project:
 2. npm run dev
 3. Navigate to http://localhost:3000/ in your browser
 
-There is a short demo video under /demo/demoVideo.mov
+[Here is a short demo video](https://vimeo.com/955077051?share=copy)
 
 ---
 
