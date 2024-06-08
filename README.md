@@ -1,3 +1,15 @@
+This project was created using the latest versions of node and next. - Node V20.X - Next V14.X - React V18.X
+
+To run project:
+
+1. npm install
+2. npm run dev
+3. Navigate to http://localhost:3000/ in your browser
+
+There is a short demo video under /demo/demoVideo.mov
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
