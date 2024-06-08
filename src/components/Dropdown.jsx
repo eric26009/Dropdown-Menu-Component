@@ -3,7 +3,21 @@ import { useOutsideClick } from "@/hooks";
 import Image from "next/image";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
+/**
+ * This component renders a reusable dropdown menu component.
+ *
+ * @component
+ * @prop {string | number} width Sets the width of the component
+ * @prop {string} label The label to display above the component.
+ * @prop {boolean} loading Shows the loading text in the dropdown.
+ * @prop {string[]} optionsData The list of options to render in the dropdown for the user to select.
+ * @prop {boolean} multiSelect Sets the select component in a multiselect mode or single select mode.
+ * @prop {function} selectedCallback The callback that returns the list of currently selected option(s) in the component.
+ * @returns {ReactNode} A React element that renders a greeting to the user.
+ */
 const Dropdown = ({
+  width = 300,
+  loading = false,
   label = "",
   optionsData = [],
   multiSelect = false,
@@ -78,8 +92,13 @@ const Dropdown = ({
       .some((val) => !val);
   }, [options]);
 
+  const noOptions = useMemo(
+    () => Object.entries(options).length === 0,
+    [options]
+  );
+
   return (
-    <div style={{ width: 300 }} ref={outsideClickRef}>
+    <div style={{ width }} ref={outsideClickRef}>
       <fieldset
         className="input"
         onClick={() => setOpenList((state) => !state)}
@@ -101,7 +120,7 @@ const Dropdown = ({
       </fieldset>
       {openList && (
         <list className="list">
-          {multiSelect && (
+          {multiSelect && !noOptions && !loading && (
             <>
               <li
                 className={`list-item ${!atLeastOneNotSelected && "disabled"}`}
@@ -120,33 +139,43 @@ const Dropdown = ({
             </>
           )}
 
-          {Object.entries(options).map(([opt, selected]) => {
-            return (
-              <li
-                key={opt}
-                onClick={() => {
-                  updateSelected(opt);
-                }}
-                className={selected && "selected"}
-              >
-                {multiSelect && (
-                  <Image
-                    priority
-                    src={
-                      selected
-                        ? "/circle-check-regular.svg"
-                        : "/circle-regular.svg"
-                    }
-                    alt="list open"
-                    width={20}
-                    height={20}
-                    className={selected && "selected"}
-                  />
-                )}
-                <span style={{ backgroundColor: "inherit" }}>{opt}</span>
-              </li>
-            );
-          })}
+          {loading ? (
+            <li className="list-item disabled" key="loadingOptions">
+              <span>Loading Options...</span>
+            </li>
+          ) : noOptions ? (
+            <li className="list-item disabled" key="noOptions">
+              <span>No Options Available</span>
+            </li>
+          ) : (
+            Object.entries(options).map(([opt, selected]) => {
+              return (
+                <li
+                  key={opt}
+                  onClick={() => {
+                    updateSelected(opt);
+                  }}
+                  className={selected && "selected"}
+                >
+                  {multiSelect && (
+                    <Image
+                      priority
+                      src={
+                        selected
+                          ? "/circle-check-regular.svg"
+                          : "/circle-regular.svg"
+                      }
+                      alt="list open"
+                      width={20}
+                      height={20}
+                      className={selected && "selected"}
+                    />
+                  )}
+                  <span style={{ backgroundColor: "inherit" }}>{opt}</span>
+                </li>
+              );
+            })
+          )}
         </list>
       )}
     </div>

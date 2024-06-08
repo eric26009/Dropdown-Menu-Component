@@ -8,6 +8,7 @@ const HomePage = () => {
     <div className="homepage">
       <Dropdown
         label="Multiselect Movies"
+        loading={false}
         width={300}
         optionsData={testList1}
         multiSelect
@@ -17,6 +18,7 @@ const HomePage = () => {
       />
       <Dropdown
         label="Single Select Movies"
+        loading={false}
         width={300}
         optionsData={testList1}
         selectedCallback={(selected) =>
